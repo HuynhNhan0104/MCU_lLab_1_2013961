@@ -115,7 +115,8 @@ int main(void)
    while (1)
    {
  	  //cu sau cycle thi kim giay se thay doi tu vi tri i - 1 den vi tri i
- 	  // de lam nhu vay thi se phai tat den o vi tri i - 1 neu khong co bong den hien thi cua kim phut va kim gio
+ 	  // de lam nhu vay thi se phai tat den o vi tri i - 1 neu khong co bong den hien thi cua kim phut va kim gio,
+	  // neu i -1 dang duoc bieu dien bang kim phut hoac gio thi ta se ko duoc phep tat den.
  	  // sau do ta se bat bong den tai vi tri i
 
 
@@ -131,11 +132,12 @@ int main(void)
  	 		  if(second - minute != 1 && second - hour != 1) clearNumberOnClock(second-1);
  	 		  break;
  	 	  }
+ 	  //bat den ơ vi tri i
  	 	  setNumberOnClock(second);
 
 
 
-
+ 	 	  // thuc hien nhu kim giay doi voi kim phut va kim gio
  	 	  switch(minute){
  	 	  	  case 0:
  	 	  		  if(second != 11 && hour != 11) clearNumberOnClock(11);
@@ -145,6 +147,8 @@ int main(void)
  	 	  		  break;
  	 	  }
  	 	 setNumberOnClock(minute);
+
+
  	 	 switch(hour){
  			  case 0:
  				  if(second != 11 && minute != 11) clearNumberOnClock(11);
@@ -157,12 +161,12 @@ int main(void)
 
  	 	 // giam bien dem counter
  	 	 counter--;
- 	 	 // bien dem = 0 co nghia la kim giay se tang 1 bac tu vi tri i sang i + 1
+ 	 	 // bien dem counter = 0 co nghia la kim giay se tang 1 bac tu vi tri i sang i + 1
  	 	  if(counter == 0){
  	 		  //reset lai bien dem = cycle
  	 		  counter = cycle;
  	 		  second++;
- 	 		  //kim giay o vi tri 11 se tro lai vi tri 0 dong thoi tang kim phut len 1
+ 	 		  //kim giay o vi tri 11 se tro lai vi tri 0 dong thoi tang kim phut len 1(tuc kim giay xoay duoc 1 vong)
  	 		  if(second >= 12) {
 
  	 			 second = 0;
