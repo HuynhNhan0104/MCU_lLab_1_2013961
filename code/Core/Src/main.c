@@ -86,38 +86,106 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  /* USER CODE BEGIN 2 */
-   int count = 0;
-   HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_RESET);
-   HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, GPIO_PIN_RESET);
+  // cycle la bien chu ki cua de kim giay tien len 1
+ 	int cycle = 1;
+ 	// bien dem cho kim giay, kim phut, kim gio
+ 	int second = 0;
+ 	int minute = 0;
+ 	int hour = 0;
+ 	int counter  = cycle;
+
+ 	// trang thai ban dau cua he thong
+
+ 	HAL_GPIO_WritePin(LED_0_GPIO_Port, LED_0_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_2_GPIO_Port, LED_2_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_3_GPIO_Port, LED_3_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_4_GPIO_Port, LED_4_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_5_GPIO_Port, LED_5_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_6_GPIO_Port, LED_6_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_7_GPIO_Port, LED_7_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_8_GPIO_Port, LED_8_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_9_GPIO_Port, LED_9_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_10_GPIO_Port, LED_10_Pin, GPIO_PIN_SET);
+ 	HAL_GPIO_WritePin(LED_11_GPIO_Port, LED_11_Pin, GPIO_PIN_SET);
    /* USER CODE END 2 */
 
    /* Infinite loop */
    /* USER CODE BEGIN WHILE */
    while (1)
    {
+ 	  //cu sau cycle thi kim giay se thay doi tu vi tri i - 1 den vi tri i
+ 	  // de lam nhu vay thi se phai tat den o vi tri i - 1 neu khong co bong den hien thi cua kim phut va kim gio
+ 	  // sau do ta se bat bong den tai vi tri i
 
- 	  if(count >= 12){
- 		  count = 0;
- 	  }
- 	 clearNumberOnClock(count);
- 	 count++;
+
+ 	 // thuc hien tat bong den o vi tri i - 1
+ 	  switch(second){
+ 	  	  // xet truong hop tai bien khi kim giay o vi tri 0
+ 	 	  case 0:
+ 	 		  //neu truoc do bong den o vi tri i - 1 ko duoc bat boi kim phut va kim giay thi ta se tat bong den o vi tri i - 1
+ 	 		  if(minute != 11 && hour != 11) clearNumberOnClock(11);
+ 	 		  break;
+ 	 	// xet truong hop tai bien khi kim giay o vi tri 0
+ 	 	  default:
+ 	 		  if(second - minute != 1 && second - hour != 1) clearNumberOnClock(second-1);
+ 	 		  break;
+ 	 	  }
+ 	 	  setNumberOnClock(second);
+
+
+
+
+ 	 	  switch(minute){
+ 	 	  	  case 0:
+ 	 	  		  if(second != 11 && hour != 11) clearNumberOnClock(11);
+ 	 	  		  break;
+ 	 	  	  default:
+ 	 	  		  if(minute - second != 1 && minute - hour != 1) clearNumberOnClock(minute - 1);
+ 	 	  		  break;
+ 	 	  }
+ 	 	 setNumberOnClock(minute);
+ 	 	 switch(hour){
+ 			  case 0:
+ 				  if(second != 11 && minute != 11) clearNumberOnClock(11);
+ 				  break;
+ 			  default:
+ 				  if(hour - second != 1 && hour - minute != 1) clearNumberOnClock(hour - 1);
+ 				  break;
+ 	 	 }
+ 	 	 setNumberOnClock(hour);
+
+ 	 	 // giam bien dem counter
+ 	 	 counter--;
+ 	 	 // bien dem = 0 co nghia la kim giay se tang 1 bac tu vi tri i sang i + 1
+ 	 	  if(counter == 0){
+ 	 		  //reset lai bien dem = cycle
+ 	 		  counter = cycle;
+ 	 		  second++;
+ 	 		  //kim giay o vi tri 11 se tro lai vi tri 0 dong thoi tang kim phut len 1
+ 	 		  if(second >= 12) {
+
+ 	 			 second = 0;
+ 	 			 minute++;
+ 	 			 //tuong tu kim phut o vi tri 11 se tro lai vi tri 0 va tang kim gio len 1
+ 	 			 if(minute >= 12){
+ 	 				 minute = 0;
+ 	 				 hour++;
+ 	 				 // kim gio o vi tri 11 se tro lai vi tri 0
+ 					  if(hour >= 12){
+ 						  hour = 0;
+ 					  }
+ 	 			 }
+ 	 		  }
+ 	 	  }
+
+
 
 
      /* USER CODE END WHILE */
 
      /* USER CODE BEGIN 3 */
- 	   HAL_Delay(1000);
+ 	   HAL_Delay(100);
    }
    /* USER CODE END 3 */
 }
